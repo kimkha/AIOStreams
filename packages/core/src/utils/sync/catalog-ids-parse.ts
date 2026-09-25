@@ -1,11 +1,5 @@
 const IMDB_ID = /tt\d{7,}/i;
 
-export type CatalogItemIds = {
-  id?: string;
-  imdb_id?: string;
-  ids?: { imdb?: string };
-};
-
 export function parseExcludedCatalogIdPayload(body: string): string[] {
   const trimmed = body.trim();
   if (!trimmed) return [];
@@ -34,11 +28,19 @@ export function parseExcludedCatalogIdPayload(body: string): string[] {
   );
 }
 
-export function catalogItemCandidateIds(item: CatalogItemIds): string[] {
-  return uniqueCatalogIds([item.id, item.imdb_id, item.ids?.imdb]);
+function catalogItemRecord(item: unknown): Record<string, unknown> | undefined {
+  if (!item || typeof item !== 'object') return undefined;
+  return item as Record<string, unknown>;
 }
 
-export function filterCatalogItemsByExcludedIds<T extends CatalogItemIds>(
+export function catalogItemCandidateIds(item: unknown): string[] {
+  const rec = catalogItemRecord(item);
+  if (!rec) return [];
+  const nestedIds = catalogItemRecord(rec.ids);
+  return uniqueCatalogIds([rec.id, rec.imdb_id, nestedIds?.imdb]);
+}
+
+export function filterCatalogItemsByExcludedIds<T>(
   items: T[],
   excluded: ReadonlySet<string>
 ): T[] {

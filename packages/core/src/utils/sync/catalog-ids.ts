@@ -9,7 +9,6 @@ import {
   filterCatalogItemsByExcludedIds,
   parseExcludedCatalogIdPayload,
   uniqueCatalogIds,
-  type CatalogItemIds,
 } from './catalog-ids-parse.js';
 
 const logger = createLogger('core');
@@ -26,7 +25,7 @@ let cachedInstanceIds: string[] | undefined;
 let cachedInstancePath: string | undefined;
 let cachedInstanceMtimeMs: number | undefined;
 
-export async function applyCatalogIdExclusions<T extends CatalogItemIds>(
+export async function applyCatalogIdExclusions<T>(
   items: T[],
   userData: UserData
 ): Promise<T[]> {
