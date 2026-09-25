@@ -114,9 +114,3 @@ jobs:
             --title "$TAG_NAME" \
             --notes "$RELEASE_NOTES" \
             --prerelease
-
-      - name: Trigger Docker Image Publish
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          gh workflow run --repo ${GITHUB_REPOSITORY} deploy-docker.yml -f ref=${{ steps.gen_tag.outputs.tag_name }}
