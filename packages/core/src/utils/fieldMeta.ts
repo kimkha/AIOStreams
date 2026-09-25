@@ -240,6 +240,8 @@ export const FIELD_META: Omit<Record<keyof UserData, FieldMeta>, IgnoredKeys> = 
   addonCategoryColors: { label: 'Addon Category Colors', group: 'misc', type: 'scalar', menu: 'addons', subTab: 'addons' },
   catalogModifications: { label: 'Catalog Modifications', group: 'misc', type: 'scalar', menu: 'addons', subTab: 'catalogs' },
   mergedCatalogs: { label: 'Merged Catalogs', group: 'misc', type: 'scalar', menu: 'addons', subTab: 'catalogs' },
+  excludedCatalogIds: { label: 'Excluded Catalog IDs', group: 'misc', type: 'list', menu: 'addons', subTab: 'catalogs', keywords: ['imdb', 'hide', 'blocklist'] },
+  syncedExcludedCatalogIdUrls: { label: 'Synced Excluded Catalog ID URLs', group: 'misc', type: 'list', menu: 'addons', subTab: 'catalogs', keywords: ['imdb', 'hide', 'blocklist'] },
 
   failover: { label: 'Failover', group: 'misc', type: 'scalar', menu: 'services', subTab: 'builtin' },
   serviceWrap: { label: 'Service Wrap', group: 'misc', type: 'scalar', menu: 'services', subTab: 'builtin' },

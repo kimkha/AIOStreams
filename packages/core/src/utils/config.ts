@@ -1079,6 +1079,11 @@ function validateSyncedPlaceholders(config: UserData) {
       syncedKey: 'syncedRankedStreamExpressionUrls',
       extract: (v) => v.expression,
     },
+    {
+      valuesKey: 'excludedCatalogIds',
+      syncedKey: 'syncedExcludedCatalogIdUrls',
+      extract: (v) => v,
+    },
   ];
 
   const invalid: string[] = [];

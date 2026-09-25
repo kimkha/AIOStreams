@@ -124,6 +124,7 @@ function makeSyncedPlaceholder(url: string): string {
 const SYNCED_URL_TO_VALUES_KEY: Record<string, keyof UserData> = {
   syncedPreferredRegexUrls: 'preferredRegexPatterns',
   syncedExcludedRegexUrls: 'excludedRegexPatterns',
+  syncedExcludedCatalogIdUrls: 'excludedCatalogIds',
   syncedIncludedRegexUrls: 'includedRegexPatterns',
   syncedRequiredRegexUrls: 'requiredRegexPatterns',
   syncedRankedRegexUrls: 'rankedRegexPatterns',
@@ -140,6 +141,7 @@ function buildPlaceholderEntry(valuesKey: keyof UserData, url: string): any {
   switch (valuesKey) {
     // string[]
     case 'excludedRegexPatterns':
+    case 'excludedCatalogIds':
     case 'includedRegexPatterns':
     case 'requiredRegexPatterns':
       return placeholder;

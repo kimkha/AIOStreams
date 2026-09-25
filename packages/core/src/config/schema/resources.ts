@@ -410,4 +410,16 @@ export const resourcesSchema = {
       },
     },
   },
+  catalogExclusion: {
+    excludedIdsFile: {
+      schema: z.string(),
+      default: '',
+      label: 'Catalog excluded IDs file',
+      description:
+        'Path to a JSON file `{ "values": ["tt0111161", ...] }` whose IDs are hidden from every catalog response. Empty disables the file source.',
+      env: 'CATALOG_EXCLUDED_IDS_FILE',
+      requiresRestart: false,
+      secret: false,
+    },
+  },
 } as const satisfies RuntimeConfigSection;

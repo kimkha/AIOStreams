@@ -5,6 +5,7 @@ import {
   getSimpleTextHash,
   maskSensitiveInfo,
   userScopeKey,
+  applyCatalogIdExclusions,
 } from '../utils/index.js';
 import { Wrapper } from './wrapper.js';
 import { createPosterService } from '../poster/index.js';
@@ -296,6 +297,8 @@ export async function applyCatalogModifications(
     type,
     applyPosterService
   );
+
+  catalog = await applyCatalogIdExclusions(catalog, ctx.userData);
 
   return catalog;
 }

@@ -28,6 +28,7 @@ import { AddonCard } from './_components/addon-card';
 import { AddonModal } from './_components/addon-modal';
 import { AddonFetchingBehaviorCard } from './_components/addon-fetching-behavior';
 import { CatalogSettingsCard } from './_components/catalog-settings';
+import { CatalogExclusionCard } from './_components/catalog-exclusion';
 import { MergedCatalogsCard } from './_components/merged-catalogs';
 import { MyAddons } from './_components/my-addons';
 
@@ -378,6 +379,7 @@ function Content() {
                     icon: <MdOutlineDataset className="w-4 h-4" />,
                     content: (
                       <div className="space-y-6">
+                        <CatalogExclusionCard />
                         {userData.presets.length === 0 ? (
                           <Card className="p-8 text-center">
                             <p className="text-[--muted]">

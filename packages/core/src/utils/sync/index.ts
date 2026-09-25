@@ -4,3 +4,4 @@ export * from './allowlist.js';
 export * from './policy.js';
 export * from './merge.js';
 export * from './service.js';
+export * from './catalog-ids.js';

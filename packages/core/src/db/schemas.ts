@@ -1142,6 +1142,8 @@ export const UserDataSchema = z.object({
   addonCategoryColors: z.record(z.string(), z.string()).optional(), // maps custom category name → colour key
   catalogModifications: z.array(CatalogModification).optional(),
   mergedCatalogs: z.array(MergedCatalog).optional(),
+  excludedCatalogIds: z.array(z.string().min(1)).optional(),
+  syncedExcludedCatalogIdUrls: z.array(z.string().url()).optional(),
   externalDownloads: z.boolean().optional(),
   cacheAndPlay: CacheAndPlaySchema.optional(),
 
