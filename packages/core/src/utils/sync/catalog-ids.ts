@@ -9,6 +9,7 @@ import {
   filterCatalogItemsByExcludedIds,
   parseExcludedCatalogIdPayload,
   uniqueCatalogIds,
+  type CatalogImdbResolver,
 } from './catalog-ids-parse.js';
 
 const logger = createLogger('core');
@@ -39,7 +40,39 @@ export async function applyCatalogIdExclusions<T>(
     await fetchExcludedCatalogIdsFromUrls(userData.syncedExcludedCatalogIdUrls)
   );
 
-  return filterCatalogItemsByExcludedIds(items, excluded);
+  return filterCatalogItemsByExcludedIds(
+    items,
+    excluded,
+    await mappedImdbResolver()
+  );
+}
+
+let cachedImdbResolver: CatalogImdbResolver | undefined | null = null;
+let resolverPromise: Promise<CatalogImdbResolver | undefined> | undefined;
+
+async function mappedImdbResolver(): Promise<CatalogImdbResolver | undefined> {
+  if (cachedImdbResolver !== null) return cachedImdbResolver;
+  if (resolverPromise) return resolverPromise;
+  resolverPromise = loadImdbResolver();
+  return resolverPromise;
+}
+
+async function loadImdbResolver(): Promise<CatalogImdbResolver | undefined> {
+  try {
+    if (!config.metadata.idMappings.enabled) {
+      cachedImdbResolver = undefined;
+      return undefined;
+    }
+    const { IdMappingDataset } = await import('../../metadata/id-mappings.js');
+    const dataset = IdMappingDataset.getInstance();
+    await dataset.initialise().catch(() => undefined);
+    cachedImdbResolver = (mediaType, provider, id) =>
+      dataset.imdbIdFor(mediaType, provider, id);
+    return cachedImdbResolver;
+  } catch {
+    cachedImdbResolver = undefined;
+    return undefined;
+  }
 }
 
 function instanceExcludedIdsFile(): string {

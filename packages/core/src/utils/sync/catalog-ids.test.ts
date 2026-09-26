@@ -85,4 +85,75 @@ describe('filterCatalogItemsByExcludedIds', () => {
       []
     );
   });
+
+  it('drops TMDB-only items whose mapped IMDb id is excluded', () => {
+    const excluded = new Set<string>();
+    addCatalogIds(excluded, ['tt33764258']);
+    const resolveImdb = (
+      mediaType: 'movie' | 'series',
+      provider: 'tmdb' | 'tvdb',
+      id: number
+    ) =>
+      mediaType === 'movie' && provider === 'tmdb' && id === 1368337
+        ? 'tt33764258'
+        : undefined;
+    const result = filterCatalogItemsByExcludedIds(
+      [
+        {
+          id: 'tmdb:1368337',
+          type: 'movie',
+          name: 'The Odyssey',
+          imdb_id: null,
+        },
+        {
+          id: 'tmdb:1698863',
+          type: 'movie',
+          name: 'Other Odyssey',
+          imdb_id: null,
+        },
+        { id: 'tt1375666', type: 'movie', name: 'Inception' },
+      ],
+      excluded,
+      resolveImdb
+    );
+    assert.deepEqual(
+      result.map((item) => item.name),
+      ['Other Odyssey', 'Inception']
+    );
+  });
+
+  it('keeps TMDB-only items when the mapper has no IMDb id', () => {
+    const excluded = new Set<string>();
+    addCatalogIds(excluded, ['tt33764258']);
+    const result = filterCatalogItemsByExcludedIds(
+      [
+        {
+          id: 'tmdb:1368337',
+          type: 'movie',
+          name: 'The Odyssey',
+          imdb_id: null,
+        },
+      ],
+      excluded,
+      () => undefined
+    );
+    assert.equal(result.length, 1);
+  });
+});
+
+describe('catalogItemCandidateIds with mapper', () => {
+  it('includes the mapped IMDb id for a prefixed TMDB item', () => {
+    const resolveImdb = (
+      _mediaType: 'movie' | 'series',
+      provider: 'tmdb' | 'tvdb',
+      id: number
+    ) => (provider === 'tmdb' && id === 1368337 ? 'tt33764258' : undefined);
+    assert.deepEqual(
+      catalogItemCandidateIds(
+        { id: 'tmdb:1368337', type: 'movie', imdb_id: null },
+        resolveImdb
+      ).sort(),
+      ['tmdb:1368337', 'tt33764258']
+    );
+  });
 });
