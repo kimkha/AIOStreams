@@ -126,6 +126,7 @@ export {
   type DeliveryRow,
   type DeliveryStatus,
 } from './repositories/playback-handoff.js';
+export { CustomRatingRepository } from './repositories/custom-ratings.js';
 export * from './schemas.js';
 
 export { sql, raw, join, SqlFragment } from './sql.js';

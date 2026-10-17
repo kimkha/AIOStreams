@@ -37,7 +37,7 @@ function toId(val: string) {
 // Shared helpers
 
 /** Download `data` as a JSON file. */
-function downloadJson(data: unknown, filename: string) {
+export function downloadJson(data: unknown, filename: string) {
   const blob = new Blob([JSON.stringify(data, null, 2)], {
     type: 'application/json',
   });

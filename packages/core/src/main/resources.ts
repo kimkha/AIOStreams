@@ -18,6 +18,7 @@ import { StreamContext, StreamUtils } from '../streams/index.js';
 import { buildPlayChain, type FailoverContentType } from './play-chain.js';
 import { resolveServiceWrappedStreams } from './serviceWrapper.js';
 import { resolveRemuxDbMediaInfo } from '../remuxdb/wrap.js';
+import { isTitleBlockedByRatingFilter } from '../metadata/ratings.js';
 import { resolveStoredMediaInfo } from '../media-info/lookup.js';
 import { idsFromVideoId, onPreloadRedirect } from '../media-info/play.js';
 import { PLAYBACK_PATH_PREFIX, withPlayPath } from '../debrid/utils.js';
@@ -729,6 +730,17 @@ export async function getStreams(
 
   const context = await StreamContext.create(type, id, ctx.userData);
   ctx.streamContext = context;
+
+  if (
+    await isTitleBlockedByRatingFilter(ctx.userData, {
+      id,
+      type,
+      imdbId: context.animeEntry?.mappings?.imdbId,
+    })
+  ) {
+    logger.debug({ type, id }, 'title blocked by the rating filter');
+    return { success: true, data: { streams: [], statistics: [] }, errors: [] };
+  }
 
   const pipelineTtl = appConfig.resources.cache.pipeline.ttl;
   const usePipelineCache = !preCaching && pipelineTtl > 0;

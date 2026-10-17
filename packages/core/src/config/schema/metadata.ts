@@ -97,6 +97,36 @@ export const metadataSchema = {
       secret: false,
     },
   },
+  imdbRatings: {
+    enabled: {
+      schema: z.boolean(),
+      default: false,
+      label: 'IMDb ratings',
+      description:
+        "Download IMDb's title ratings dataset so configurations can filter titles by IMDb rating. IMDb licenses it for personal and non-commercial use only.",
+      env: 'IMDB_RATINGS_ENABLED',
+      requiresRestart: true,
+      secret: false,
+    },
+    url: {
+      schema: z.string(),
+      default: 'https://datasets.imdbws.com/title.ratings.tsv.gz',
+      label: 'IMDb ratings URL',
+      description: 'URL of the gzipped IMDb title ratings TSV.',
+      env: 'IMDB_RATINGS_URL',
+      requiresRestart: true,
+      secret: false,
+    },
+    refreshInterval: {
+      schema: seconds,
+      default: 1 * 24 * 60 * 60,
+      label: 'IMDb ratings refresh interval (s)',
+      description: 'Refresh interval for the IMDb ratings dataset.',
+      env: 'IMDB_RATINGS_REFRESH_INTERVAL',
+      requiresRestart: true,
+      secret: false,
+    },
+  },
   titleConflicts: {
     enabled: {
       schema: z.boolean(),

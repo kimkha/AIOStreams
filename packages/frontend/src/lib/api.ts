@@ -703,6 +703,32 @@ function authed(credentials: Credentials) {
   return configAuth(credentials.uuid, credentials.password);
 }
 
+export interface CustomRating {
+  rating: number;
+  type?: 'movie' | 'series';
+  name?: string;
+  year?: string;
+}
+
+export interface CustomRatings {
+  count: number;
+  titles: Record<string, CustomRating>;
+}
+
+export async function getCustomRatings(credentials: Credentials) {
+  return api<CustomRatings>('GET /user/custom-ratings', authed(credentials));
+}
+
+export async function uploadCustomRatings(
+  credentials: Credentials,
+  jsonText: string
+) {
+  return api<{ count: number }>('PUT /user/custom-ratings', {
+    ...authed(credentials),
+    body: jsonText,
+  });
+}
+
 export async function fetchLinkedAccountPlatforms(credentials: Credentials) {
   return api<LinkedAccountPlatformInfo[]>(
     'GET /linked-accounts/platforms',

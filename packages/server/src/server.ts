@@ -36,6 +36,7 @@ import {
   SeaDexDataset,
   SceneMappingDataset,
   IdMappingDataset,
+  ImdbRatingDataset,
   ensureConfigAccessKey,
   warnLegacyAuthVarsIfNeeded,
   warnMissingConfigPermission,
@@ -367,6 +368,15 @@ async function initialiseIdMappingDataset() {
   } catch {}
 }
 
+async function initialiseImdbRatingDataset() {
+  if (!appConfig.metadata.imdbRatings.enabled) {
+    return;
+  }
+  try {
+    await ImdbRatingDataset.getInstance().initialise();
+  } catch {}
+}
+
 async function initialiseProwlarr() {
   try {
     await ProwlarrAddon.fetchpreconfiguredIndexers();
@@ -406,6 +416,7 @@ async function start() {
     await initialiseSeaDexDataset();
     await initialiseSceneMappingDataset();
     await initialiseIdMappingDataset();
+    await initialiseImdbRatingDataset();
     RegexAccess.initialise();
     SelAccess.initialise();
     await initialiseProwlarr();

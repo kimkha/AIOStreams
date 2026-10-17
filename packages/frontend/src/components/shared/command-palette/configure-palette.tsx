@@ -76,6 +76,7 @@ const FILTER_TABS: Array<{ id: string; label: string }> = [
   { id: 'bitrate', label: 'Bitrate' },
   { id: 'limit', label: 'Result Limits' },
   { id: 'deduplicator', label: 'Deduplicator' },
+  { id: 'rating-filter', label: 'Rating Filter' },
   { id: 'miscellaneous', label: 'Miscellaneous (Filters)' },
 ];
 

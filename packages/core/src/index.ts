@@ -49,6 +49,13 @@ export { MEDIA_INFO_PROBE_PATHS } from './config/schema/media-info.js';
 export { sharedRows, type SharedRow } from './media-info/remote.js';
 export { SceneMappingDataset } from './metadata/scene-mappings.js';
 export { IdMappingDataset } from './metadata/id-mappings.js';
+export { ImdbRatingDataset } from './metadata/imdb-ratings.js';
+export {
+  CustomRatingsPayloadError,
+  parseCustomRatings,
+  parseCustomRatingsJson,
+  toCustomRatingsPayload,
+} from './metadata/rating-filter.js';
 export {
   TorBoxSearchAddon,
   GDriveAddon,
@@ -75,6 +82,10 @@ export {
   refreshLibraryCacheForService,
   testNabEndpoint,
   type NabNamespaceId,
+  FilteredCatalogAccessError,
+  getFilteredCatalog,
+  getFilteredCatalogManifest,
+  getVerifiedFilteredCatalogUuid,
 } from './builtins/index.js';
 export { PresetManager } from './presets/index.js';
 export {

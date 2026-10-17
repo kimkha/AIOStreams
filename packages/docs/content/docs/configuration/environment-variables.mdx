@@ -181,6 +181,14 @@ neither the environment variable nor a stored value is present.
 | `ID_MAPPINGS_MOVIE_URL`        | ID Mappings › Movie URL        | string   | `https://raw.githubusercontent.com/0xConstant1/Wikidata-Fetcher/main/data/movie_mappings.csv` | URL of the movie ID mapping CSV. _(restart required)_                                                                                                                                 |
 | `ID_MAPPINGS_REFRESH_INTERVAL` | ID Mappings › Refresh Interval | duration | `86400`                                                                                       | Refresh interval for the ID mapping dataset. _(restart required)_                                                                                                                     |
 
+#### Imdb Ratings
+
+| Environment Variable            | UI Setting                      | Type     | Default                                            | Description                                                                                                                                                               |
+| ------------------------------- | ------------------------------- | -------- | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `IMDB_RATINGS_ENABLED`          | Imdb Ratings › Enabled          | boolean  | `false`                                            | Download IMDb's title ratings dataset so configurations can filter titles by IMDb rating. IMDb licenses it for personal and non-commercial use only. _(restart required)_ |
+| `IMDB_RATINGS_URL`              | Imdb Ratings › URL              | string   | `https://datasets.imdbws.com/title.ratings.tsv.gz` | URL of the gzipped IMDb title ratings TSV. _(restart required)_                                                                                                           |
+| `IMDB_RATINGS_REFRESH_INTERVAL` | Imdb Ratings › Refresh Interval | duration | `86400`                                            | Refresh interval for the IMDb ratings dataset. _(restart required)_                                                                                                       |
+
 #### Title Conflicts
 
 | Environment Variable      | UI Setting                | Type    | Default | Description                                                                                                                                                     |

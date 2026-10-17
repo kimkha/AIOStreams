@@ -250,6 +250,16 @@ export const DEFAULT_FAILOVER_MAX_WAIT_MS = 30000;
 // item to catch up before it's accepted (parallel mode only). 0 = first-ready wins.
 export const DEFAULT_FAILOVER_PREFERRED_GRACE_MS = 2000;
 
+export const RATING_SOURCES = ['custom', 'imdb'] as const;
+export type RatingSource = (typeof RATING_SOURCES)[number];
+export const RATING_SCALES: Record<
+  RatingSource,
+  { max: number; step: number }
+> = {
+  custom: { max: 100, step: 1 },
+  imdb: { max: 10, step: 0.1 },
+};
+
 /**
  * Query-param marker appended to an owned-playback inner URL when it is wrapped by
  * a proxy.

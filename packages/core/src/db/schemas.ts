@@ -1147,6 +1147,14 @@ export const UserDataSchema = z.object({
   newCatalogsDisabled: z.array(z.string()).optional(), // addon instance ids whose catalogs start disabled until saved otherwise
   upstreamCatalogOrder: z.array(z.string()).optional(), // addon instance ids whose catalogs keep the addon's order within their positions
   mergedCatalogs: z.array(MergedCatalog).optional(),
+  ratingFilter: z
+    .object({
+      enabled: z.boolean().optional(),
+      source: z.enum(constants.RATING_SOURCES).optional(),
+      range: z.tuple([z.number().min(0), z.number().min(0)]).optional(),
+      minVotes: z.number().int().min(0).optional(),
+    })
+    .optional(),
   externalDownloads: z.boolean().optional(),
   cacheAndPlay: CacheAndPlaySchema.optional(),
 
@@ -1996,6 +2004,7 @@ const StatusResponseSchema = z.object({
     metadata: z.object({
       tmdb: z.object({ accessToken: z.boolean(), apiKey: z.boolean() }),
       tvdb: z.object({ apiKey: z.boolean() }),
+      imdbRatings: z.object({ enabled: z.boolean() }),
     }),
     remuxdb: z.object({ enabled: z.boolean() }),
     /** Global analytics master switch (false = no events written anywhere). */

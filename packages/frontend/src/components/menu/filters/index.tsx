@@ -4,6 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@aiostreams/ui/tabs';
 import { SettingsNavCard } from '../../shared/settings-card';
 import { useUserData } from '@/context/userData';
 import {
+  FaStar,
   FaBolt,
   FaClock,
   FaFilm,
@@ -73,6 +74,7 @@ import { useSubTab } from '@/context/sub-tab';
 import { InheritedBadge } from '../../shared/inherited-badge';
 
 import { FilterSettings } from './_components/filter-settings';
+import { RatingFilterSettings } from './_components/rating-filter';
 import {
   TextInputs,
   ToggleableTextInputs,
@@ -433,6 +435,12 @@ function Content() {
                 <TabsTrigger value="deduplicator">
                   <MdCleaningServices className="text-lg mr-3" />
                   Deduplicator
+                </TabsTrigger>
+              </Card>
+              <Card className={tabsGroupClass}>
+                <TabsTrigger value="rating-filter">
+                  <FaStar className="text-lg mr-3" />
+                  Rating Filter
                 </TabsTrigger>
               </Card>
               <Card className={tabsGroupClass}>
@@ -4023,6 +4031,14 @@ function Content() {
                 )}
               </div>
             </>
+          </TabsContent>
+          <TabsContent
+            id="filter-tab-rating-filter"
+            value="rating-filter"
+            className="space-y-4"
+          >
+            <HeadingWithPageControls heading="Rating Filter" />
+            <RatingFilterSettings />
           </TabsContent>
           <TabsContent
             id="filter-tab-miscellaneous"

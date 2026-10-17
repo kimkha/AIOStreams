@@ -44,6 +44,7 @@ import { mediaInfo } from './0043_media_info.js';
 import { mediaInfoProbes } from './0044_media_info_probes.js';
 import { mediaInfoSources } from './0045_media_info_sources.js';
 import { jellyfinUserAddresses } from './0046_jellyfin_user_addresses.js';
+import { customRatings } from './1002_custom_ratings.js';
 import type { Migration } from './types.js';
 
 export const MIGRATIONS: readonly Migration[] = [
@@ -93,6 +94,8 @@ export const MIGRATIONS: readonly Migration[] = [
   mediaInfoProbes,
   mediaInfoSources,
   jellyfinUserAddresses,
+  // Fork-only migrations use ids from 1000; existing databases already hold 1000 and 1001.
+  customRatings,
 ];
 
 export type { Migration } from './types.js';

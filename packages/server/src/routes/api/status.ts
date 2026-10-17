@@ -100,6 +100,9 @@ const statusInfo = async (): Promise<StatusResponse> => {
         tvdb: {
           apiKey: !!appConfig.metadata.tvdb.apiKey,
         },
+        imdbRatings: {
+          enabled: appConfig.metadata.imdbRatings.enabled,
+        },
       },
       remuxdb: {
         enabled: appConfig.remuxdb.enabled,

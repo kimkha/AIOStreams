@@ -46,6 +46,7 @@ export const FILTER_TAB_IDS = [
   'bitrate',
   'limit',
   'deduplicator',
+  'rating-filter',
   'miscellaneous',
 ] as const;
 export type FilterTabId = (typeof FILTER_TAB_IDS)[number];
@@ -242,6 +243,7 @@ export const FIELD_META: Omit<Record<keyof UserData, FieldMeta>, IgnoredKeys> = 
   newCatalogsDisabled: { label: 'New Catalogs Disabled', group: 'misc', type: 'scalar', menu: 'addons', subTab: 'catalogs' },
   upstreamCatalogOrder: { label: 'Upstream Catalog Order', group: 'misc', type: 'scalar', menu: 'addons', subTab: 'catalogs' },
   mergedCatalogs: { label: 'Merged Catalogs', group: 'misc', type: 'scalar', menu: 'addons', subTab: 'catalogs' },
+  ratingFilter: { label: 'Rating Filter', group: 'filters', type: 'scalar', menu: 'filters', subTab: 'rating-filter', keywords: ['rating', 'imdb', 'custom', 'score', 'hide'] },
 
   failover: { label: 'Failover', group: 'misc', type: 'scalar', menu: 'services', subTab: 'builtin' },
   serviceWrap: { label: 'Service Wrap', group: 'misc', type: 'scalar', menu: 'services', subTab: 'builtin' },

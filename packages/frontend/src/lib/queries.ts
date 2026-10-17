@@ -8,10 +8,12 @@ import {
   fetchCommunityItems,
   fetchMyCommunityItems,
   getWatchStateTrackers,
+  getCustomRatings,
   api,
   type LinkedAccount,
   type LinkedAccountPlatformInfo,
   type WatchStateOverview,
+  type CustomRatings,
 } from './api';
 import { fetchDocsChangelog } from './changelog';
 import type {
@@ -123,5 +125,22 @@ export const myCommunityQuery = (credentials: Credentials | null) =>
       credentials ? fetchMyCommunityItems(credentials) : Promise.resolve([]),
     enabled: !!credentials,
     staleTime: 15_000,
+    retry: false,
+  });
+
+export const CUSTOM_RATINGS_QUERY_ROOT = ['custom-ratings'] as const;
+
+export const customRatingsQuery = (credentials: Credentials | null) =>
+  queryOptions({
+    queryKey: [
+      ...CUSTOM_RATINGS_QUERY_ROOT,
+      credentials?.uuid ?? null,
+    ] as const,
+    queryFn: (): Promise<CustomRatings> =>
+      credentials
+        ? getCustomRatings(credentials)
+        : Promise.resolve({ count: 0, titles: {} }),
+    enabled: !!credentials,
+    staleTime: 30_000,
     retry: false,
   });

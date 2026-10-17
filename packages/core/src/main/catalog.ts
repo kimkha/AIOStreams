@@ -10,6 +10,7 @@ import {
 import { Wrapper } from './wrapper.js';
 import { createPosterService } from '../poster/index.js';
 import { getAddonName } from '../utils/general.js';
+import { applyRatingCatalogFilter } from '../metadata/ratings.js';
 import type {
   MetaPreview,
   MergedCatalog,
@@ -307,6 +308,8 @@ export async function applyCatalogModifications(
     type,
     applyPosterService
   );
+
+  catalog = await applyRatingCatalogFilter(catalog, ctx.userData);
 
   return catalog;
 }

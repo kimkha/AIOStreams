@@ -1,4 +1,4 @@
-import { Router, type Request } from 'express';
+import express, { Router, type Request, type Response } from 'express';
 import {
   APIError,
   AnalyticsRepository,
@@ -12,6 +12,11 @@ import {
   Permission,
   sessionHasPermission,
   UserRepository,
+  CustomRatingRepository,
+  CustomRatingsPayloadError,
+  parseCustomRatings,
+  parseCustomRatingsJson,
+  toCustomRatingsPayload,
   evaluateVariantConditions,
   formatZodError,
   getClientAgents,
@@ -704,6 +709,68 @@ router.get('/client-agents', async (req, res, next) => {
     next(new APIError(constants.ErrorCode.INTERNAL_SERVER_ERROR));
   }
 });
+
+const CUSTOM_RATINGS_BODY_LIMIT = '2mb';
+
+async function verifiedConfigUuid(req: Request, res: Response) {
+  const creds = await resolveConfigCredentials(req, res, {
+    allowEncrypted: false,
+  });
+  if (!creds) {
+    throw new APIError(
+      constants.ErrorCode.MISSING_REQUIRED_FIELDS,
+      undefined,
+      'Authorization header (Basic) is required'
+    );
+  }
+  const uuid = req.uuid || creds.uuid;
+  await UserRepository.verifyUser(uuid, creds.password);
+  return uuid;
+}
+
+router.get('/custom-ratings', async (req, res, next) => {
+  try {
+    const uuid = await verifiedConfigUuid(req, res);
+    const titles = await CustomRatingRepository.getAll(uuid);
+    res.status(200).json(
+      createResponse({
+        success: true,
+        data: { count: titles.size, ...toCustomRatingsPayload(titles) },
+      })
+    );
+  } catch (error) {
+    next(error);
+  }
+});
+
+// A `text/plain` body skips the global JSON parser's MAX_JSON_BODY_SIZE cap.
+router.put(
+  '/custom-ratings',
+  express.text({ type: 'text/plain', limit: CUSTOM_RATINGS_BODY_LIMIT }),
+  async (req, res, next) => {
+    try {
+      const uuid = await verifiedConfigUuid(req, res);
+      const titles =
+        typeof req.body === 'string'
+          ? parseCustomRatingsJson(req.body)
+          : parseCustomRatings(req.body);
+      await CustomRatingRepository.replaceAll(uuid, titles);
+      res
+        .status(200)
+        .json(createResponse({ success: true, data: { count: titles.size } }));
+    } catch (error) {
+      next(
+        error instanceof CustomRatingsPayloadError
+          ? new APIError(
+              constants.ErrorCode.BAD_REQUEST,
+              undefined,
+              error.message
+            )
+          : error
+      );
+    }
+  }
+);
 
 /** The trackers this configuration syncs watch state with, and how they last went. */
 router.get('/watch-state', async (req, res, next) => {

@@ -85,6 +85,7 @@ import { DavexPreset } from './davex.js';
 import { HdHubPreset } from './hdhub.js';
 import { PenguPlayPreset } from './penguplay.js';
 import { BaguettioPreset } from './baguettio.js';
+import { FilteredCatalogPreset } from './filteredCatalog.js';
 import { Preset } from './index.js';
 
 let PRESET_LIST: string[] = [
@@ -102,6 +103,7 @@ let PRESET_LIST: string[] = [
   'zilean',
   'knaben',
   'library',
+  'filtered-catalog',
   'eztv',
   'therarbg',
   'the-pirate-bay',
@@ -335,6 +337,8 @@ export class PresetManager {
         return KnabenPreset;
       case 'library':
         return LibraryPreset;
+      case 'filtered-catalog':
+        return FilteredCatalogPreset;
       case 'eztv':
         return EztvPreset;
       case 'therarbg':
